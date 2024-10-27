@@ -6,7 +6,7 @@ spec:
   profile: empty
   components:
     ingressGateways:
-    - name: ingressgateway
+    - name: ingress-gateway
       namespace: istio-system
       enabled: true
       label:
@@ -16,3 +16,8 @@ spec:
           requests:
             cpu: 100m
             memory: 160Mi
+    - name: my-user-gateway
+      namespace: formation
+      enabled: true
+      label:
+        istio: my-user-gateway

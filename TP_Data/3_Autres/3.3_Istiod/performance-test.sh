@@ -42,7 +42,7 @@ main(){
   LATENCY=$(kubectl -n formation exec -it $SLEEP_POD -c sleep -- curl "$PROM_URL/api/v1/query" --data-urlencode "query=histogram_quantile(0.99, sum(rate(pilot_proxy_convergence_time_bucket[1m])) by (le))" | jq  '.. |."value"? | select(. != null) | .[1]' -r)
 
   echo "Push count:" `expr $POST_PUSHES - $PRE_PUSHES`
-  echo "Latency in the last minute: `printf "%.2f\n" $LATENCY` seconds" 
+  echo "Latency in the last minute: `printf "%0.2f\n" $LATENCY` seconds" 
 }
 
 create_random_resource() {
@@ -147,7 +147,7 @@ init_args() {
   [ -z "${DELAY}" ] &&  DELAY=0
   [ -z "${GATEWAY}" ] &&  GATEWAY=localhost
   [ -z "${NAMESPACE}" ] &&  NAMESPACE=formation
-  [ -z "${PROM_URL}" ] &&  PROM_URL="prom-kube-prometheus-stack-prometheus.prometheus.svc.cluster.local:9090"
+  [ -z "${PROM_URL}" ] &&  PROM_URL="prometheus.istio-system.svc.cluster.local:9090"
   echo $GATEWAY
 }
 
